@@ -10,7 +10,7 @@ import BottomBar from "@/components/shared/BottomBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Next thread application",
+  title: "Threads",
   description:
     "full stack nextjs application which is a better replica of threads by meta",
 };
@@ -29,7 +29,7 @@ export default function RootLayout({
           <main>
             <LeftSideBar />
                 <section className="main-container">
-                <div className="q-full max-w-4xl">
+                <div className="w-full max-w-4xl">
                   {children}
                 </div>
                 </section>
