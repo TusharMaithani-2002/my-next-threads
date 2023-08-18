@@ -6,6 +6,7 @@ import { userValidation } from "@/lib/validations/user";
 import { Button } from "@/components/ui/button";
 import * as z from "zod";
 import Image from "next/image";
+import {useUploadThing} from '@/lib/uploadthing';
 
 import {
   Form,
@@ -19,6 +20,7 @@ import {
 import { Input } from "../ui/input";
 import { ChangeEvent,useState } from "react";
 import { Textarea } from "../ui/textarea";
+import { isBase64Image } from "@/lib/utils";
 
 interface Props {
   user: {
@@ -71,7 +73,13 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
   };
 
   function onSubmit(values: z.infer<typeof userValidation>) {
-    
+    const blob = values.profile_photo;
+
+    const hasImageChanged = isBase64Image(blob);
+
+    if(hasImageChanged) {
+        const imgRes = 
+    }
   }
 
   return (
