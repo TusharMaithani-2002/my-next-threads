@@ -17,7 +17,7 @@ const threadSchema = mongoose.Schema({
     parentId: {
         type:String,
     },
-    cildren:[
+    children:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:'Thread' // self -> recursion
