@@ -17,7 +17,7 @@ export default async function Home() {
           result.posts.length === 0 ? (<p>No threads found</p>) : (
             <>
               {
-                result.posts.map((post) => (
+                result.posts.map((post:any) => (
                   <ThreadCard
                   key={post._id}
                   id={post._id}
