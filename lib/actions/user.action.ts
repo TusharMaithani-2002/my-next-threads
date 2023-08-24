@@ -26,9 +26,9 @@ export async function updateUser(
     } : Params
     
     ):Promise<void> {
-    connectToDB();
-
-    try {
+        
+        try {
+        connectToDB();
         await User.findOneAndUpdate(
             {id:userId},
             {
@@ -111,9 +111,9 @@ export async function fetchUsers({
     sortBy?: SortOrder
 }) {
 
-    connectToDB();
-
+    
     try{
+        connectToDB();
 
         const skipAmount = (pageNumber-1) * pageSize;
 
@@ -147,5 +147,32 @@ export async function fetchUsers({
 
     } catch(error:any) {
         throw new Error(`Failed to search users ${error.message}`);
+    }
+}
+
+export async function getActivity(userId:string) {
+
+    
+    try{
+        connectToDB();
+
+        const userThreads = await Thread.find({author:userId});
+
+        // join all the children threads in a single array
+        const childThreadIds = userThreads.reduce((acc:any,userThread:any)=>{
+            return acc.concat(userThread.children)
+        },[])
+
+        const replies = await Thread.find({_id : {$in : childThreadIds},author : {$ne:userId}})
+        .populate({
+            path:'author',
+            model:User,
+            select:"name image _id"
+        }) ;
+
+        return replies;
+
+    } catch(error:any) {
+        throw new Error(`Failed to fetch activity: ${error.message}`)
     }
 }
