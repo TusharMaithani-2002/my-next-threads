@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { SignedIn, SignOutButton,OrganizationSwitcher } from "@clerk/nextjs";
+import { SignedIn, SignOutButton,OrganizationSwitcher,currentUser } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import {useRouter} from 'next/navigation';
 
 function TopBar() {
   const router = useRouter();
+
   return (
     <nav className="topbar">
       <Link href="/" className="flex items-center gap-4">
@@ -32,16 +33,8 @@ function TopBar() {
             </SignOutButton>
           </SignedIn>
         </div>
-
-        <OrganizationSwitcher
-          appearance={{
-            baseTheme:dark,
-            elements: {
-              organizationSwitcherTrigger: "py-2 px-4",
-            },
-          }}
-        />
       </div>
+     
     </nav>
   );
 }

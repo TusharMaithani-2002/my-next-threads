@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { formatDateString } from "@/lib/utils";
 
 interface Props {
   id: string;
@@ -80,9 +81,12 @@ const ThreadCard = ({
 
                 {isComment && comments.length > 0 && (
                     <Link href={`/thread/${id}`}>
-                        <p className="mt-1 text-subtle-medium text-gray-7">{comments.length} replies</p>
+                        <p className="mt-1 text-subtle-medium text-gray-1">{comments.length} replies</p>
                     </Link>
                 )}
+              <p className="text-subtle-medium text-gray-1">
+                {formatDateString(createdAt)}
+              </p>
             </div>
           </div>
         </div>
