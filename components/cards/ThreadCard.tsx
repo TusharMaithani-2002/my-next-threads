@@ -1,6 +1,8 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateString } from "@/lib/utils";
+import { deleteThread } from "@/lib/actions/thread.actions";
 
 interface Props {
   id: string;
@@ -35,8 +37,10 @@ const ThreadCard = ({
   community,
   createdAt,
   comments,
-  isComment
+  isComment,
 }: Props) => {
+
+
   return (
     <article className={`flex flex-col w-full rounded-xl ${isComment ? `px-0 xs:px-7 mb-5` : `bg-dark-2 p-4`}`}>
       <div className="flex items-start justify-between">
@@ -87,8 +91,17 @@ const ThreadCard = ({
               <p className="text-subtle-medium text-gray-1">
                 {formatDateString(createdAt)}
               </p>
+
             </div>
           </div>
+            {
+              author.id === currentUserId && (
+                <div className="text-white p-3">
+                <Image src={'/assets/delete.svg'} width={20} height={20} className="object-cover rounded-full"/>
+              </div>
+              )
+            }
+              
         </div>
       </div>
     </article>
