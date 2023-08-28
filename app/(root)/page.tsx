@@ -13,7 +13,7 @@ export default async function Home() {
       <h1 className='head-text text-l'>Home</h1>
       <section className='mt-9 flex flex-col gap-10'>
         {
-          result.posts.length === 0 ? (<p>No threads found</p>) : (
+          result.posts.length === 0 ? (<p className='text-white'>No threads found</p>) : (
             <>
               {
                 result.posts.map((post:any) => (
