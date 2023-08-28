@@ -6,9 +6,10 @@ interface Props {
   currentUserId: string;
   accountId: string;
   accountType: string;
+  path?:string;
 }
 
-const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
+const ThreadsTab = async ({ currentUserId, accountId, accountType,path }: Props) => {
   let result = await fetchUserPosts(accountId);
   if (!result) redirect("/");
   return (
@@ -20,7 +21,6 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
           currentUserId={currentUserId || ""}
           parentId={thread.parentId}
           content={thread.text}
-          community={thread.community}
           author={
             accountType === "User"
               ? { name: result.name, image: result.image, id: result.id }
@@ -32,6 +32,7 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType }: Props) => {
           }
           createdAt={thread.createdAt}
           comments={thread.children}
+          path={path}
         />
       ))}
     </section>

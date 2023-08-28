@@ -9,7 +9,6 @@ const threadSchema = mongoose.Schema({
         required:true,
     },
 
-    community:{type:mongoose.Schema.Types.ObjectId,ref:'Community'},
     createdAt: {
         type:Date,
         default:Date.now(),
