@@ -1,5 +1,6 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import Comment from "@/components/forms/Comment";
+import NotExists from "@/components/shared/NotExists";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.action";
 import {currentUser} from '@clerk/nextjs';
@@ -16,6 +17,8 @@ const Page = async ({params} : {params : {id:string}}) => {
     if(!userInfo?.onboarding) redirect('/onboarding');
 
     const thread = await fetchThreadById(params.id);
+
+    if(!thread || !thread?._id) return <NotExists type={"thread"}/>;
     return (
         <section className="relative">
             <div>
