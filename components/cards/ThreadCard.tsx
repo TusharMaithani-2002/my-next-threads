@@ -1,8 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateString } from "@/lib/utils";
-import { deleteThread } from "@/lib/actions/thread.actions";
-import { Button } from "../ui/button";
 import DeleteButton from "../shared/DeleteButton";
 
 interface Props {
@@ -23,6 +21,7 @@ interface Props {
   }[];
   isComment?: boolean;
   path?: string;
+  liked?:boolean
 }
 
 const ThreadCard = ({
@@ -34,7 +33,8 @@ const ThreadCard = ({
   createdAt,
   comments,
   isComment,
-  path
+  path,
+  liked
 }: Props) => {
   return (
     <article
@@ -67,7 +67,7 @@ const ThreadCard = ({
             <div className="mt-5 flex flex-col gap-3">
               <div className="flex gap-3.5">
                 <Image
-                  src="/assets/heart-gray.svg"
+                  src="/assets/heart-filled.svg"
                   alt="heart"
                   width={24}
                   height={24}
@@ -112,18 +112,6 @@ const ThreadCard = ({
           </div>
           {author.id === currentUserId && path == "profile" && (
             <div className="text-white">
-              {/* <Button className="bg-transparent" onClick={async()=>{
-                console.log('delete')
-                await deleteThread(id,`/profie/${currentUserId}`)
-              }}>
-                <Image
-                  src={"/assets/delete.svg"}
-                  width={20}
-                  height={20}
-                  className="object-cover rounded-full"
-                  alt="delete"
-                />
-              </Button> */}
               <DeleteButton id={id} currentUserId={currentUserId}/>
             </div>
           )}

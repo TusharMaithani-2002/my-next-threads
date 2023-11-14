@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const threadSchema = mongoose.Schema({
+const threadSchema = new mongoose.Schema({
 
     text:{type:String,required:true},
     author:{
