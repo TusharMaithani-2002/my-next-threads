@@ -6,6 +6,7 @@ import { connectToDB } from "../mongodb";
 
 import User from "../models/user.model";
 import Thread from "../models/thread.model";
+import mongoose from "mongoose";
 
 export async function fetchPosts(pageNumber = 1, pageSize = 20) {
   connectToDB();
@@ -44,14 +45,13 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20) {
 }
 
 interface Params {
-  text: string,
-  author: string,
-  communityId: string | null,
-  path: string,
+  text: string;
+  author: string;
+  communityId: string | null;
+  path: string;
 }
 
-export async function createThread({ text, author, path }: Params
-) {
+export async function createThread({ text, author, path }: Params) {
   try {
     connectToDB();
 
@@ -64,7 +64,6 @@ export async function createThread({ text, author, path }: Params
     await User.findByIdAndUpdate(author, {
       $push: { threads: createdThread._id },
     });
-
 
     revalidatePath(path);
   } catch (error: any) {
@@ -122,7 +121,6 @@ export async function deleteThread(id: string, path: string): Promise<void> {
       { _id: { $in: Array.from(uniqueAuthorIds) } },
       { $pull: { threads: { $in: descendantThreadIds } } }
     );
-
 
     revalidatePath(path);
   } catch (error: any) {
@@ -207,20 +205,25 @@ export async function addCommentToThread(
   }
 }
 
-export async function addLikeId ({threadId,likedId}:{
-  threadId:string,
-  likedId:string
-}) {
+export async function addLikeId(threadId: string, likedId: string,path:string="") {
   connectToDB();
-  try{
+  try {
     const thread = await Thread.findById(threadId);
 
-    if(!thread) throw new Error(`Thread not found!`);
-    thread.likedIds.push(likedId)
+    if (!thread) throw new Error(`Thread not found!`);
+
+    const userIndex = thread?.likedIds.indexOf(likedId);
+
+    if (userIndex != -1) {
+      thread?.likedIds.splice(userIndex, 1);
+    } else {
+      thread?.likedIds.push(likedId);
+    }
 
     await thread.save();
-  } catch(error:any) {
+    revalidatePath(path);
+  } catch (error: any) {
     console.log(`error liking the post ${error.message}`);
-    throw new Error(`unable to like the post`);
+    throw new Error(`unable to like the post ${error.message}`);
   }
 }

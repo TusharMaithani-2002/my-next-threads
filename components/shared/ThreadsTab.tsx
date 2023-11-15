@@ -33,6 +33,7 @@ const ThreadsTab = async ({ currentUserId, accountId, accountType,path }: Props)
           createdAt={thread.createdAt}
           comments={thread.children}
           path={path}
+          likedIds={thread.likedIds}
         />
       ))}
     </section>

@@ -1,7 +1,10 @@
+// "use client"; // for implementing like functionality
 import Link from "next/link";
 import Image from "next/image";
 import { formatDateString } from "@/lib/utils";
 import DeleteButton from "../shared/DeleteButton";
+import LikeButton from "../ui/LikeButton";
+import { fetchUser } from "@/lib/actions/user.action";
 
 interface Props {
   id: string;
@@ -21,10 +24,10 @@ interface Props {
   }[];
   isComment?: boolean;
   path?: string;
-  liked?:boolean
+  likedIds:string[];
 }
 
-const ThreadCard = ({
+const ThreadCard = async({
   id,
   currentUserId,
   parentId,
@@ -34,8 +37,13 @@ const ThreadCard = ({
   comments,
   isComment,
   path,
-  liked
+  likedIds
 }: Props) => {
+
+  const user = await fetchUser(currentUserId);
+
+  let likeCount=likedIds?.length | 0;
+  let liked=likedIds?.indexOf(user._id) != -1
   return (
     <article
       className={`flex flex-col w-full rounded-xl ${
@@ -66,13 +74,7 @@ const ThreadCard = ({
 
             <div className="mt-5 flex flex-col gap-3">
               <div className="flex gap-3.5">
-                <Image
-                  src="/assets/heart-filled.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <LikeButton liked={liked} id={id} currentUserId={user._id.toString()} likeCount={likeCount as number | 0} path={path}/>
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
